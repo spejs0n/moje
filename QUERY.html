@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INF.03 - JavaScript Część 2 - Formularze</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .task {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .task-number {
+            display: inline-block;
+            background: #11998e;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .task-title {
+            color: #333;
+            font-size: 1.3em;
+        }
+
+        .difficulty {
+            margin-left: 20px;
+            color: #11998e;
+            font-weight: bold;
+        }
+
+        .difficulty-star {
+            color: #ffa500;
+            letter-spacing: 1px;
+        }
+
+        .task-content {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #11998e;
+        }
+
+        .task-content p {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Style dla formularzy */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"],
+        input[type="number"],
+        textarea,
+        select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #11998e;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #11998e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0d7a6e;
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .output-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            min-height: 40px;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+
+        /* Klasy pomocnicze */
+        .hidden { display: none; }
+        .highlight { background: yellow; }
+        .error { color: red; border-color: red; }
+        .success { color: green; border-color: green; }
+        .required { border-left: 3px solid red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 JavaScript - Egzamin INF.03</h1>
+            <p>Część 2 - Formularze i zaawansowane selektory</p>
+        </header>
+
+        <!-- ĆWICZENIE 1 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">1</div>
+                <div class="task-title">Pobierz wartość z input (po ID)</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz wartość z inputa o ID "city" i wyświetl ją w paragrafie o ID "cityOutput".</p>
+                <div class="form-group">
+                    <label>Miasto:</label>
+                    <input type="text" id="city" value="Warszawa">
+                </div>
+                <p id="cityOutput" class="output-box">Tu pojawi się miasto</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 2 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">2</div>
+                <div class="task-title">Pobierz wartość z input (querySelector)</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Używając querySelector() znajdź input z klasą "email-input" i wyświetl jego wartość w elemencie z klasą "email-output".</p>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="email-input" value="jan@example.com">
+                </div>
+                <p class="email-output output-box">Tu pojawi się email</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 3 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">3</div>
+                <div class="task-title">Ustaw wartość w input</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Zmień wartość inputa o ID "defaultName" na "Jan Kowalski".</p>
+                <div class="form-group">
+                    <label>Imię i nazwisko:</label>
+                    <input type="text" id="defaultName" value="">
+                </div>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 4 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">4</div>
+                <div class="task-title">Pobierz wartość z textarea</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz tekst z textarea o ID "message" i wyświetl go w paragrafie o ID "messagePreview".</p>
+                <div class="form-group">
+                    <label>Wiadomość:</label><br>
+                    <textarea id="message" rows="3" cols="40">To jest przykładowa wiadomość do wysłania.</textarea>
+                </div>
+                <p id="messagePreview" class="output-box">Podgląd wiadomości</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 5 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">5</div>
+                <div class="task-title">Pobierz wartość z select</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz wybraną wartość z selecta o ID "country" i wyświetl ją w paragrafie o ID "countryOutput".</p>
+                <div class="form-group">
+                    <label>Kraj:</label>
+                    <select id="country">
+                        <option value="pl">Polska</option>
+                        <option value="de" selected>Niemcy</option>
+                        <option value="fr">Francja</option>
+                        <option value="uk">Wielka Brytania</option>
+                    </select>
+                </div>
+                <p id="countryOutput" class="output-box">Tu pojawi się wybrany kraj</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 6 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">6</div>
+                <div class="task-title">innerHTML vs innerText (różnica!)</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> W elemencie o ID "htmlDemo" użyj innerHTML, aby wstawić: <code>&lt;strong&gt;Tekst pogrubiony&lt;/strong&gt;</code>. W elemencie o ID "textDemo" użyj innerText z tym samym tekstem. Porównaj wyniki!</p>
+                <div class="info-box">💡 innerHTML interpretuje HTML, innerText wyświetla jako zwykły tekst!</div>
+                <p id="htmlDemo" class="output-box">Tu użyj innerHTML</p>
+                <p id="textDemo" class="output-box">Tu użyj innerText</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 7 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">7</div>
+                <div class="task-title">Zmień atrybut - placeholder</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Używając setAttribute(), zmień atrybut "placeholder" inputa o ID "searchBox" na "Wpisz szukaną frazę..."</p>
+                <div class="form-group">
+                    <label>Szukaj:</label>
+                    <input type="text" id="searchBox" placeholder="Stary placeholder">
+                </div>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 8 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">8</div>
+                <div class="task-title">Odczytaj atrybut - type</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Używając getAttribute(), odczytaj atrybut "type" inputa o ID "secretField" i wyświetl go w paragrafie o ID "typeOutput".</p>
+                <div class="form-group">
+                    <label>Pole tajne:</label>
+                    <input type="password" id="secretField" value="tajnehaslo123">
+                </div>
+                <p id="typeOutput" class="output-box">Tu pojawi się typ inputa</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 9 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">9</div>
+                <div class="task-title">querySelector po atrybucie</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Używając querySelector() z selektorem atrybutu, znajdź input z atrybutem type="number" i zmień jego wartość na 100.</p>
+                <div class="form-group">
+                    <label>Ilość:</label>
+                    <input type="number" value="1" min="0" max="999">
+                </div>
+                <div class="form-group">
+                    <label>Tekst (nie zmieniaj):</label>
+                    <input type="text" value="To zostaw">
+                </div>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 10 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">10</div>
+                <div class="task-title">querySelectorAll - pobierz wszystkie wartości</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Znajdź WSZYSTKIE inputy z klasą "data-field", pobierz ich wartości i wyświetl je (oddzielone przecinkami) w paragrafie o ID "allDataOutput".</p>
+                <div class="form-group">
+                    <input type="text" class="data-field" value="Jabłko">
+                    <input type="text" class="data-field" value="Gruszka">
+                    <input type="text" class="data-field" value="Banan">
+                </div>
+                <p id="allDataOutput" class="output-box">Tu pojawią się wszystkie wartości</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 11 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">11</div>
+                <div class="task-title">querySelectorAll - zmień wszystkie wartości</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Znajdź WSZYSTKIE inputy z klasą "reset-field" i ustaw każdemu wartość na pusty string "".</p>
+                <div class="form-group">
+                    <input type="text" class="reset-field" value="Wartość 1">
+                    <input type="text" class="reset-field" value="Wartość 2">
+                    <input type="text" class="reset-field" value="Wartość 3">
+                </div>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 12 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">12</div>
+                <div class="task-title">querySelectorAll - dodaj klasę CSS</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Znajdź WSZYSTKIE elementy z klasą "mark-me" i dodaj każdemu klasę "highlight" (użyj classList.add).</p>
+                <div class="info-box">💡 element.classList.add('nazwaKlasy') dodaje klasę CSS do elementu!</div>
+                <p class="mark-me">Zaznacz mnie 1</p>
+                <p class="mark-me">Zaznacz mnie 2</p>
+                <p class="mark-me">Zaznacz mnie 3</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 13 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">13</div>
+                <div class="task-title">Formularz - połącz dane</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz wartości z inputów "firstName" i "lastName", połącz je spacją i wyświetl w paragrafie "fullNameOutput".</p>
+                <div class="form-group">
+                    <label>Imię:</label>
+                    <input type="text" id="firstName" value="Anna">
+                </div>
+                <div class="form-group">
+                    <label>Nazwisko:</label>
+                    <input type="text" id="lastName" value="Nowak">
+                </div>
+                <p id="fullNameOutput" class="output-box">Tu pojawi się pełne imię i nazwisko</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 14 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">14</div>
+                <div class="task-title">Formularz - obliczenia</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz wartości z inputów "price" i "quantity", pomnóż je i wyświetl wynik w paragrafie "totalOutput".</p>
+                <div class="info-box">💡 Pamiętaj: wartość z inputa to STRING! Użyj parseInt() lub parseFloat() do konwersji.</div>
+                <div class="form-group">
+                    <label>Cena:</label>
+                    <input type="number" id="price" value="25">
+                </div>
+                <div class="form-group">
+                    <label>Ilość:</label>
+                    <input type="number" id="quantity" value="4">
+                </div>
+                <p id="totalOutput" class="output-box">Tu pojawi się suma</p>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 15 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">15</div>
+                <div class="task-title">querySelector potomek - formularz w divie</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Używając selektora potomka, znajdź input WEWNĄTRZ diva z klasą "special-form" i zmień jego wartość na "Znaleziono!".</p>
+                <div class="form-group">
+                    <input type="text" value="To NIE zmieniaj">
+                </div>
+                <div class="special-form form-group">
+                    <label>Specjalny input:</label>
+                    <input type="text" value="Zmień mnie">
+                </div>
+            </div>
+        </div>
+
+        <!-- ĆWICZENIE 16 -->
+        <div class="task">
+            <div class="task-header">
+                <div class="task-number">16</div>
+                <div class="task-title">Kombinacja - walidacja formularza</div>
+                <div class="difficulty">Trudność: <span class="difficulty-star">⭐⭐⭐</span></div>
+            </div>
+            <div class="task-content">
+                <p><strong>Polecenie:</strong> Pobierz wartość z inputa "validateEmail". Jeśli zawiera znak "@", wyświetl w "validationResult" tekst "Email poprawny" i dodaj klasę "success". Jeśli nie zawiera, wyświetl "Brak znaku @" i dodaj klasę "error".</p>
+                <div class="info-box">💡 Użyj metody includes() do sprawdzenia czy string zawiera znak: text.includes('@')</div>
+                <div class="form-group">
+                    <label>Email do walidacji:</label>
+                    <input type="text" id="validateEmail" value="test@example.com">
+                </div>
+                <p id="validationResult" class="output-box">Wynik walidacji</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Przygotowanie do egzaminu INF.03 - Formularze i selektory</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">📚 JavaScript | 💻 DOM | 📝 Formularze | 🎯 Praktyka</p>
+        </footer>
+    </div>
+
+    <!-- TU UCZNIOWIE WPISUJĄ SWÓJ KOD -->
+    <script>
+        // ĆWICZENIE 1
+    const input1 = document.getElementById('city');
+    const output1 = document.getElementById("cityOutput");
+    output1.innerText = input1.value;
+
+        // ĆWICZENIE 2
+        const emailinput = document.querySelector(".email-input");
+            const output2 = document.querySelector(".email-output");
+              output2.innerText = emailinput.value;
+
+              //cw3
+const input3 = document.querySelector("#defaultName");
+        input3.value="Jan kowalski";
+
+
+        const input4 = document.querySelector("#message");
+         const output4 = document.querySelector("#messagePreview");
+              output4.innerText = input4.value;
+
+
+              
+        const input5 = document.querySelector("#country");
+         const output5 = document.querySelector("#countryOutput");
+              output5.innerText = input5.value;
+
+              const input6 = document.querySelector("#htmlDemo");
+                input6.innerHTML = "<strong>Tekst pogrubiony</strong>.";
+                const input7 = document.querySelector("#textDemo");
+                input7.innerText = "<strong>Tekst pogrubiony</strong>.";
+
+                const input9 = document.querySelector("#searchBox");
+                input9.setAttribute("placeholder","Wpisz szukaną frazę...");
+
+               const input10 = document.querySelector("#secretField");
+               const output10 = document.querySelector("#typeOutput");
+               const inputType = input10.getAttribute("type");  
+                output10.innerText = inputType;
+
+                const numberInput = document.querySelector('[type="number"]');
+                if (numberInput) {
+                    numberInput.value = 100;
+}
+//10 zad
+                const input12 = document.querySelectorAll(".data-field");
+                const output12 = document.querySelector("#allDataOutput");
+                let values = [];
+              input12.forEach(function(input){
+              values.push(input.value);
+              });
+              output12.innerHTML = values.join( " ,");
+
+            
+
+const input14 = document.querySelectorAll(".reset-field");
+input14.forEach(function(input) {
+    input.value = "";
+});
+
+                     const elements10 = document.querySelectorAll(".mark-me");
+                    elements10.forEach(function(element) {
+                        element.classList.add('highlight')
+});
+
+
+
+const input15 = document.querySelector("#firstName");
+const input16 = document.querySelector("#lastName");
+const output13 = document.querySelector("#fullNameOutput");
+    const fullName1 = input15.value + " " + input16.value;
+   output13.innerText = fullName1;
+
+const input00 = document.querySelector("#price");
+const input01 = document.querySelector("#quantity");
+const output02 = document.querySelector("#totalOutput");
+const cena = parseFloat(input00.value);
+const ilosc = parseFloat(input01.value);
+const mnoz = cena * ilosc;
+output02.innerText = mnoz;
+
+const input33 = document.querySelector(".special-form input");
+      input33.value = "Znaleziono!";
+
+      const input66 = document.querySelector("#validateEmail");
+    const output66 = document.querySelector("#validationResult");
+     const emailValue = input66.value;
+    if (emailValue.includes('@')){
+        output66.innerText = "Email poprawny";
+         output66.classList.add('success')
+    }   else{
+        output66.innerText = "Brak znaku @";
+         output66.classList.add('error')
+    }
+
+
+
+    
+    </script>
+</body>
+</html>
